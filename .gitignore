@@ -1,2 +1,11 @@
+node_modules/
+.next/
+.vercel/
 .vercel
 .env
+.env*
+.demo-url
+.monitor.json
+*.tsbuildinfo
+next-env.d.ts
+settings.local.json
