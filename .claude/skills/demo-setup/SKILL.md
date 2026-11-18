@@ -15,7 +15,11 @@ Hard rules:
 
 ## 1. Prerequisites
 
-Run `sh scripts/doctor.sh`. If any line says `MISSING`, stop and show those lines as a checklist. The person fixes them in their own shell, then restarts Claude Code from that shell so the new env vars reach you.
+Run `sh scripts/doctor.sh` and check its exit code:
+
+- **1**: stop. Show the `MISSING` lines as a checklist. The person fixes them in their own shell, then restarts Claude Code from that shell so the new env vars reach you.
+- **2**: only Datadog settings are missing. Say so, run steps 2, 3 and 5, and skip the Datadog parts (marked below).
+- **0**: run everything.
 
 ## 2. Database
 
@@ -42,16 +46,28 @@ Then link, set env, and deploy:
 vercel link --yes --project datadog-demo
 printf %s "$SUPABASE_URL"      | vercel env add SUPABASE_URL production --force
 printf %s "$SUPABASE_ANON_KEY" | vercel env add SUPABASE_ANON_KEY production --force
+```
+
+**Datadog part (skip if doctor exited 2).** The app sends its traces straight to Datadog's OTLP intake, so this works on Vercel Hobby with no drain. `@vercel/otel` reads these standard OTLP variables:
+
+```sh
+printf %s "https://otlp.$DD_SITE/v1/traces"                 | vercel env add OTEL_EXPORTER_OTLP_TRACES_ENDPOINT production --force
+printf %s "http/protobuf"                                   | vercel env add OTEL_EXPORTER_OTLP_TRACES_PROTOCOL production --force
+printf "dd-api-key=%s,compute_stats=true" "$DD_API_KEY"     | vercel env add OTEL_EXPORTER_OTLP_TRACES_HEADERS production --force
+```
+
+Then deploy:
+
+```sh
 vercel deploy --prod --yes > .demo-url
 curl -s "$(cat .demo-url)/api/orders?customer=1" | head -c 200
 ```
 
 The curl should return JSON with `"customer":1`.
 
-## 4. Datadog
+## 4. Datadog (skip if doctor exited 2)
 
-1. Ask the person to confirm the Datadog integration is installed from the Vercel Marketplace with **Trace Drain on at 100% sampling** and Log Drain on. Wait for their yes.
-2. Create the latency monitor. If `MONITOR_OPERATION` or `MONITOR_RESOURCE` in `demo.env` is empty, skip this and say so. Otherwise:
+Create the latency monitor. If `MONITOR_OPERATION` or `MONITOR_RESOURCE` in `demo.env` is empty, skip this and say so. Otherwise:
 
 ```sh
 . ./demo.env

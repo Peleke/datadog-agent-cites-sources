@@ -14,7 +14,7 @@ Run one prompt, then search Datadog APM for `service:claude-code`.
 
 ## Reproduce the demo
 
-You need accounts on Datadog, Vercel (Pro, for trace drains) and Supabase, plus the `bun`, `supabase`, `vercel` and `gh` CLIs.
+You need accounts on Datadog, Vercel (Hobby is enough: the app sends traces straight to Datadog's OTLP intake) and Supabase, plus the `bun`, `supabase`, `vercel` and `gh` CLIs.
 
 ```sh
 git clone <this repo> && cd <repo>/datadog
