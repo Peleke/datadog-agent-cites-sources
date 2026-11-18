@@ -61,11 +61,18 @@ printf "dd-api-key=%s,compute_stats=true" "$DD_API_KEY"     | vercel env add OTE
 Then deploy:
 
 ```sh
-vercel deploy --prod --yes > .demo-url
+DEPLOY_URL=$(vercel deploy --prod --yes)
+vercel inspect "$DEPLOY_URL" --json | bun -e 'const j=JSON.parse(await Bun.stdin.text());process.stdout.write("https://"+j.aliases[0])' > .demo-url
+for i in 1 2 3; do
+  code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 "$(cat .demo-url)/api/orders?customer=1")
+  echo "warm-up $i: HTTP $code"; [ "$code" = 200 ] && break; sleep 2
+done
 curl -s "$(cat .demo-url)/api/orders?customer=1" | head -c 200
 ```
 
-The curl should return JSON with `"customer":1`.
+The warm-up loop is there because the first scan after the table goes cold reads it from disk, and that can run past the `anon` role's 3 s `statement_timeout` and return HTTP 500. Each attempt pulls more of the table into Postgres's cache, and once it's warm the scan takes about 1.3 s. A 500 on the first attempt is expected. If all three attempts fail, stop and report it.
+
+`.demo-url` holds the production alias, not the URL `vercel deploy` prints. Vercel Authentication protects each deployment's own URL, so curl and the load script get a login redirect there. Production domains are not protected. The curl should return JSON with `"customer":1`.
 
 ## 4. Datadog (skip if doctor exited 2)
 
