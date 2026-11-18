@@ -2,6 +2,10 @@
 
 Your coding agent's sessions show up as traces in Datadog APM, and every decision in its pull requests links the doc section that justifies it.
 
+## What you get
+
+When a coding agent changes your code, you usually get a diff and take its reasoning on trust. With this kit you can see what the agent did, next to the service it changed, and check each decision in one click instead of rereading the code.
+
 ## Use it in your project
 
 1. Copy `.claude/settings.json` and `.claude/otel-headers.sh` into your repo's `.claude/`. If your Datadog site isn't `datadoghq.com`, change the three `otlp.datadoghq.com` endpoints to `otlp.<your-site>`.
@@ -17,7 +21,7 @@ Run one prompt, then search Datadog APM for `service:claude-code`.
 You need accounts on Datadog, Vercel (Hobby is enough: the app sends traces straight to Datadog's OTLP intake) and Supabase, plus the `bun`, `supabase`, `vercel` and `gh` CLIs.
 
 ```sh
-git clone <this repo> && cd <repo>/datadog
+git clone https://github.com/Peleke/datadog-agent-cites-sources && cd datadog-agent-cites-sources
 bun install
 export SUPABASE_PROJECT_REF=... DD_SITE=datadoghq.com DD_API_KEY=... DD_APP_KEY=...
 claude
