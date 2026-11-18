@@ -1,0 +1,12 @@
+{
+  "name": "orders-api: /api/orders p90 latency",
+  "type": "query alert",
+  "query": "percentile(last_5m):p90:trace.__OPERATION__{service:orders-api,resource_name:__RESOURCE__} > __THRESHOLD_S__",
+  "message": "p90 latency on /api/orders is above __THRESHOLD_S__ s.",
+  "tags": ["demo:agent-cites-sources"],
+  "options": {
+    "thresholds": { "critical": __THRESHOLD_S__ },
+    "notify_no_data": false,
+    "require_full_window": false
+  }
+}

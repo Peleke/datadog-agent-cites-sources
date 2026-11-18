@@ -1,0 +1,15 @@
+{
+  "env": {
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "1",
+    "CLAUDE_CODE_ENHANCED_TELEMETRY_BETA": "1",
+    "OTEL_TRACES_EXPORTER": "otlp",
+    "OTEL_LOGS_EXPORTER": "otlp",
+    "OTEL_METRICS_EXPORTER": "otlp",
+    "OTEL_EXPORTER_OTLP_PROTOCOL": "http/protobuf",
+    "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT": "https://otlp.datadoghq.com/v1/traces",
+    "OTEL_EXPORTER_OTLP_LOGS_ENDPOINT": "https://otlp.datadoghq.com/v1/logs",
+    "OTEL_EXPORTER_OTLP_METRICS_ENDPOINT": "https://otlp.datadoghq.com/v1/metrics",
+    "OTEL_SERVICE_NAME": "claude-code"
+  },
+  "otelHeadersHelper": "sh .claude/otel-headers.sh"
+}
