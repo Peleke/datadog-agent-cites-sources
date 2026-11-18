@@ -14,7 +14,7 @@ Output asset-pack/b2/mcp-trace.mp4
 Hide
 Type "bun scripts/load.ts $(cat .demo-url) break 60 6"
 Enter
-Wait+Screen@180s /,break,60,/
+Wait+Screen@180s /p95_ms: [0-9]+/
 Type "clear"
 Enter
 Show
