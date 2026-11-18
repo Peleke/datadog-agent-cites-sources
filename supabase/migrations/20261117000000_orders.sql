@@ -17,7 +17,7 @@ select
   (random() * 50000)::int,
   (array['pending', 'paid', 'shipped', 'refunded'])[1 + (random() * 3)::int],
   now() - (random() * interval '365 days')
-from generate_series(1, 200000)
+from generate_series(1, 2000000)
 where not exists (select 1 from public.orders);
 
 analyze public.orders;

@@ -23,7 +23,7 @@ export SUPABASE_PROJECT_REF=... DD_SITE=datadoghq.com DD_API_KEY=... DD_APP_KEY=
 claude
 ```
 
-Then tell Claude Code: **set up the demo**. The `demo-setup` skill (`.claude/skills/demo-setup/SKILL.md`) checks prerequisites, seeds 200,000 orders with no index, deploys the app, creates the latency monitor and makes `/api/orders` slow. Each step is a plain shell command in that file if you'd rather run it by hand.
+Then tell Claude Code: **set up the demo**. The `demo-setup` skill (`.claude/skills/demo-setup/SKILL.md`) checks prerequisites, seeds 2,000,000 orders with no index, deploys the app, creates the latency monitor and makes `/api/orders` slow. Each step is a plain shell command in that file if you'd rather run it by hand.
 
 Then ask: **why is /api/orders slow?**
 

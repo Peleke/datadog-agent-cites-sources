@@ -1,0 +1,18 @@
+{
+  "before": {
+    "p50": 575,
+    "p90": 759,
+    "p95": 808
+  },
+  "after": {
+    "p50": 216,
+    "p90": 281,
+    "p95": 347
+  },
+  "unit": "ms",
+  "n_requests": {
+    "before": 200,
+    "after": 200
+  },
+  "source": "data/latency.csv"
+}

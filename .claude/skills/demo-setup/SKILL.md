@@ -29,7 +29,7 @@ supabase db query --linked -f supabase/migrations/20261117000000_orders.sql
 supabase db query --linked "select count(*) from public.orders"
 ```
 
-The count should be 200000. If `link` asks for a database password, the person can leave it blank.
+The count should be 2000000. If `link` asks for a database password, the person can leave it blank.
 
 ## 3. App
 
@@ -39,6 +39,8 @@ Get the project URL and anon key without printing the key:
 SUPABASE_URL="https://$SUPABASE_PROJECT_REF.supabase.co"
 SUPABASE_ANON_KEY=$(supabase projects api-keys --project-ref "$SUPABASE_PROJECT_REF" -o json | bun -e 'const k=JSON.parse(await Bun.stdin.text()).find(k=>k.name==="anon");process.stdout.write(k.api_key)')
 ```
+
+`vercel.json` pins the function to `pdx1` (Oregon). If the Supabase project is in another region, change it to the nearest Vercel region first (`supabase projects list` shows the region), or every query pays a cross-country round trip and the fixed endpoint never looks fast.
 
 Then link, set env, and deploy:
 
